@@ -1,17 +1,17 @@
-section .text					; definit la section de texte
-	global _ft_strlen			; declaration de la fonction ft_strlen et la rend accessible a d'autres fichiers
+section .text
+    global _ft_strlen
 
 _ft_strlen:
-	xor	rax, rax
-	cmp	rdi, 0
-	je	exit
-	jmp	loop
+    xor rax, rax                  ; int i = 0
+    cmp rdi, 0                  ; char *str == NULL
+    je exit                     ; if (char *str == NULL) => return (NULL)
+    jmp loop                    ; jump to loop
 
 loop:
-	cmp	BYTE [rdi + rax], 0
-	je	exit
-	inc	rax
-	jmp	loop
+    cmp BYTE [rdi + rax], 0     ; if (*str == '\0')
+    je exit                     ; if (!str) return (i)
+    inc rax                     ; i++
+    jmp loop                    ; jump to loop
 
 exit:
-	ret
+    ret                         ; return (i)
