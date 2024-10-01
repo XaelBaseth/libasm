@@ -1,2 +1,4 @@
 obj/
 libasm.a
+__pycache__
+.pytest_cache
