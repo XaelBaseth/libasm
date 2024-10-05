@@ -1,4 +1,20 @@
-obj/
+#binaries
 libasm.a
+libasm.so
+
+#object
+obj/
+
+#cache
+cache
+
+#test
 __pycache__
 .pytest_cache
+
+#virtual env
+.venv
+
+#Random
+README.md
+valgrind-out.txt

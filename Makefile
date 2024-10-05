@@ -28,7 +28,7 @@ WHITE        = \033[0;97m
 MAND_DIR     = mandatory/
 MAND_FILES   = ft_strlen #ft_strcpy ft_strcmp ft_write ft_read ft_strdup
 BONU_DIR     = bonus/
-BONU_FILES   = ft_list_push_front ft_list_size ft_list_sort ft_list_remove_if
+BONU_FILES   = #ft_list_push_front ft_list_size ft_list_sort ft_list_remove_if
 
 SRC_MAND_FILE= $(addprefix $(MAND_DIR), $(MAND_FILES))
 SRC_BONU_FILE= $(addprefix $(BONU_DIR), $(BONU_FILES))
@@ -41,24 +41,15 @@ SRC_BONUS    = $(addprefix $(SRC_DIR), $(SRC_BONU_FILE))
 OBJ          = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_MAND_FILE)))
 OBJ_BONUS    = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(BONU_FILE)))
 
-# Rules
-all: $(NAME)
+# Generation of .o
 
 $(NAME): $(OBJ)
 		@ar rcs $@ $^
 		@$(ECHO) "$(YELLOW)[$(NAME_CAPS)]:\t$(ORANGE)[==========]\t$(GREEN) => Success!$(DEF_COLOR)\n"
 
-bonus: $(OBJ) $(OBJ_BONUS)
-		@ar rcs $(NAME) $^
-		@$(ECHO) "$(YELLOW)[$(NAME_CAPS)]:\t$(ORANGE)[==========]\t$(GREEN) => Bonus files compiled!$(DEF_COLOR)\n"
-
 $(SHARED_NAME): $(OBJ)
-		@$(CC) -shared -o $@ $^
+		@gcc -shared -o $@ -fPIC $^
 		@$(ECHO) "$(YELLOW)[$(NAME_CAPS)]:\t$(ORANGE)[==========]\t$(GREEN) => Shared library created!$(DEF_COLOR)\n"
-
-test: $(OBJ) $(OBJ_BONUS) $(SHARED_NAME)
-		@$(ECHO) "$(YELLOW)[$(NAME_CAPS)]:\t$(ORANGE)[==========]\t$(GREEN) => Starting tests...$(DEF_COLOR)\n"
-		
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.s $(OBJF)
 		@$(CC) $(CFLAGS) $< -o $@
@@ -69,7 +60,19 @@ $(OBJF):
 				@mkdir -p $(OBJ_DIR)$(MAND_DIR)
 				@mkdir -p $(OBJ_DIR)$(BONU_DIR)
 
+# Rules
 
+all: $(NAME)
+
+bonus: $(OBJ) $(OBJ_BONUS)
+		@ar rcs $(NAME) $^
+		@$(ECHO) "$(YELLOW)[$(NAME_CAPS)]:\t$(ORANGE)[==========]\t$(GREEN) => Bonus files compiled!$(DEF_COLOR)\n"
+
+test: $(OBJ) $(OBJ_BONUS) $(SHARED_NAME)
+		@gcc -shared -o libasm.so -fPIC $(OBJ)
+		@$(ECHO) "$(YELLOW)[$(NAME_CAPS)]:\t$(ORANGE)[==========]\t$(GREEN) => Shared library created!$(DEF_COLOR)\n"
+		@$(ECHO) "$(YELLOW)[$(NAME_CAPS)]:\t$(ORANGE)[==========]\t$(GREEN) => Starting tests...$(DEF_COLOR)\n"
+		@pytest .test
 
 help: ##  Print help on Makefile.
 		@grep '^[^.#]\+:\s\+.*#' Makefile | \
@@ -83,11 +86,11 @@ clean: ##  Clean generated files and cache.
 
 fclean: ##  Clean all generated file, including binaries.		
 		@make clean
-		@$(RM) $(NAME)
+		@$(RM) $(NAME) $(SHARED_NAME)
 		@$(ECHO) "$(CYAN)[$(NAME_CAPS)]:\texe. files$(DEF_COLOR)\t$(GREEN) => Cleaned!$(DEF_COLOR)\n"
 
 re: ##  Clean and rebuild binary file.
 		@make fclean all
 		@$(ECHO) "\n$(GREEN)###\tCleaned and rebuilt everything for [$(NAME_CAPS)]!\t###$(DEF_COLOR)\n"
 
-.PHONY: all clean fclean re help bonus
+.PHONY: all bonus test clean fclean re help
