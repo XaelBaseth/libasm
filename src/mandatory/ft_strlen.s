@@ -1,17 +1,12 @@
+global _ft_strlen
 section .text
-    global _ft_strlen
 
 _ft_strlen:
-    xor rax, rax                  ; int i = 0
-    cmp rdi, 0                  ; char *str == NULL
-    je exit                     ; if (char *str == NULL) => return (NULL)
-    jmp loop                    ; jump to loop
-
-loop:
-    cmp BYTE [rdi + rax], 0     ; if (*str == '\0')
-    je exit                     ; if (!str) return (i)
-    inc rax                     ; i++
-    jmp loop                    ; jump to loop
-
+    xor     rax, rax
+    length:
+        cmp     byte[rax+rdi], 0    ; Look for a null-terminator in the RDI string
+        je 		exit                ; If equal, perform 'exit'
+        inc	 	rax                 ; If not equal, increment rax and
+        jmp 	length              ; perform 'length'
 exit:
-    ret                         ; return (i)
+	ret
