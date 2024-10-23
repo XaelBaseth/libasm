@@ -26,7 +26,7 @@ WHITE        = \033[0;97m
 
 # Files
 MAND_DIR     = mandatory/
-MAND_FILES   = ft_strlen #ft_strcpy ft_strcmp ft_write ft_read ft_strdup
+MAND_FILES   = ft_strlen ft_strcpy #ft_strcmp ft_write ft_read ft_strdup
 BONU_DIR     = bonus/
 BONU_FILES   = #ft_list_push_front ft_list_size ft_list_sort ft_list_remove_if
 

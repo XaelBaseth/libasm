@@ -18,7 +18,6 @@ def test_ft_strlen():
     test_str = b"Hello, libasm!"
     result = libasm._ft_strlen(test_str)
     expected = libc.strlen(test_str)  # La longueur attendue
-
     assert result == expected, f"Expected {expected}, but got {result}"
 
 def test_ft_strlen_empty():
