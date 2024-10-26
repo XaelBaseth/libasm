@@ -10,7 +10,6 @@ CC           = nasm
 CFLAGS       = -f elf64
 RM           = rm -rf
 ECHO         = echo
-SHARED_NAME	 = libasm.so
 
 # Colors
 DEF_COLOR    = \033[0;39m
@@ -47,10 +46,6 @@ $(NAME): $(OBJ)
 		@ar rcs $@ $^
 		@$(ECHO) "$(YELLOW)[$(NAME_CAPS)]:\t$(ORANGE)[==========]\t$(GREEN) => Success!$(DEF_COLOR)\n"
 
-$(SHARED_NAME): $(OBJ)
-		@gcc -shared -o $@ -fPIC $^
-		@$(ECHO) "$(YELLOW)[$(NAME_CAPS)]:\t$(ORANGE)[==========]\t$(GREEN) => Shared library created!$(DEF_COLOR)\n"
-
 $(OBJ_DIR)%.o: $(SRC_DIR)%.s $(OBJF)
 		@$(CC) $(CFLAGS) $< -o $@
 		@$(ECHO) "\033[1A\033[K$< created"
@@ -67,12 +62,6 @@ all: $(NAME)
 bonus: $(OBJ) $(OBJ_BONUS)
 		@ar rcs $(NAME) $^
 		@$(ECHO) "$(YELLOW)[$(NAME_CAPS)]:\t$(ORANGE)[==========]\t$(GREEN) => Bonus files compiled!$(DEF_COLOR)\n"
-
-test: $(OBJ) $(OBJ_BONUS) $(SHARED_NAME)
-		@gcc -shared -o libasm.so -fPIC $(OBJ)
-		@$(ECHO) "$(YELLOW)[$(NAME_CAPS)]:\t$(ORANGE)[==========]\t$(GREEN) => Shared library created!$(DEF_COLOR)\n"
-		@$(ECHO) "$(YELLOW)[$(NAME_CAPS)]:\t$(ORANGE)[==========]\t$(GREEN) => Starting tests...$(DEF_COLOR)\n"
-		@pytest .test
 
 help: ##  Print help on Makefile.
 		@grep '^[^.#]\+:\s\+.*#' Makefile | \

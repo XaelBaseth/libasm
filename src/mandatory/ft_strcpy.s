@@ -1,9 +1,9 @@
-global _ft_strcpy     
+global ft_strcpy     
 section .text
 
 ; rdi = dest, rsi = src
 
-_ft_strcpy:
+ft_strcpy:
     xor     rax, rax        ; tmp
     push    rdi             ; rdi => stqck
     jmp     loop

@@ -1,6 +1,6 @@
 #binaries
-libasm.a
-libasm.so
+*.a
+*.so
 
 #object
 obj/
@@ -14,7 +14,7 @@ __pycache__
 
 #virtual env
 .venv
+libasmTester
 
 #Random
 README.md
-valgrind-out.txt
