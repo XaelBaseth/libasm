@@ -1,19 +1,15 @@
 global ft_write
 section .text
 
-; ft_write (rdi, rsi, rdx)
+; ft_write(file_descriptor (rdi), buffer (rsi), count (rdx))
 
 ft_write:
-    xor rax, rax            ; clear registr
-    mov rax, 0              ; system call write
-    syscall                 ; call to write function
-    jc  error
-    jmp exit
+    mov rax, 1              ; System call number for write
+    syscall                 ; Make the system call
+    cmp rax, 0              ; Check if the return value is negative (error)
+    jl error                ; If less than zero, jump to error handler
+    ret                     ; Return if successful
 
 error:
-    xor rax, rax            ; clear registr
-    mov rax, -1             ; -1 => system call error
-    ret
-
-exit:
-    ret
+    mov rax, -1             ; Set return value to -1 on error
+    ret                     ; Return

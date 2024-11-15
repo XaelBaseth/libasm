@@ -27,7 +27,7 @@ WHITE        = \033[0;97m
 MAND_DIR     = mandatory/
 MAND_FILES   = ft_strlen ft_strcpy ft_read ft_strcmp ft_write  ft_strdup
 BONU_DIR     = bonus/
-BONU_FILES   = #ft_list_push_front ft_list_size ft_list_sort ft_list_remove_if
+BONU_FILES   = ft_list_push_front ft_list_size ft_list_sort ft_list_remove_if
 
 SRC_MAND_FILE= $(addprefix $(MAND_DIR), $(MAND_FILES))
 SRC_BONU_FILE= $(addprefix $(BONU_DIR), $(BONU_FILES))
@@ -71,6 +71,7 @@ help: ##  Print help on Makefile.
 clean: ##  Clean generated files and cache.
 		@$(RM) $(OBJ_DIR)
 		@$(RM) $(OBJF)
+		@$(RM) main
 		@$(ECHO) "$(BLUE)[$(NAME_CAPS)]:\tobj. files$(DEF_COLOR)\t$(GREEN) => Cleaned!$(DEF_COLOR)\n"
 
 fclean: ##  Clean all generated file, including binaries.		
@@ -82,4 +83,9 @@ re: ##  Clean and rebuild binary file.
 		@make fclean all
 		@$(ECHO) "\n$(GREEN)###\tCleaned and rebuilt everything for [$(NAME_CAPS)]!\t###$(DEF_COLOR)\n"
 
-.PHONY: all bonus test clean fclean re help
+test: ##Use the main.c to test the program.
+		@make re
+		gcc -o main main.c libasm.a -no-pie
+		./main
+
+.PHONY: all bonus test clean fclean re help test
