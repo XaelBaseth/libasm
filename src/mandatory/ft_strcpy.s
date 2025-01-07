@@ -4,20 +4,17 @@ section .text
 ; rdi = dest, rsi = src
 
 ft_strcpy:
-    xor     rax, rax        ; tmp
-    push    rdi             ; rdi => stqck
-    jmp     loop
+	xor		rcx,	rcx
 
 loop:
-    cmp     BYTE [rsi], 0   ; make sure the rsi != \0
-    je      exit            ; if rsi = \0 return rdi
-    mov     rax, [rsi]      ; tmp = src[0]
-    mov     [rdi], rax      ; dest[0] = tmp
-    inc     rdi             ; *rdi++
-    inc     rsi             ; *rsi++
-    jmp     loop
+	cmp		byte [rsi + rcx],	0
+	jz		return
+	mov		dl,	[rsi + rcx]
+	mov		[rdi + rcx],	dl
+	inc		rcx
+	jmp		loop
 
-exit:
-    mov     BYTE [rdi], 0   ; add \0 to dest
-    pop     rax             ; rax <= stack
-    ret                     
+return:
+	mov		byte [rdi + rcx],	0
+	mov		rax,	rdi
+	ret

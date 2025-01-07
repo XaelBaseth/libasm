@@ -1,15 +1,29 @@
 global ft_write
 section .text
+extern	__errno_location
 
 ; ft_write(file_descriptor (rdi), buffer (rsi), count (rdx))
 
 ft_write:
-    mov rax, 1              ; System call number for write
-    syscall                 ; Make the system call
-    cmp rax, 0              ; Check if the return value is negative (error)
-    jl error                ; If less than zero, jump to error handler
-    ret                     ; Return if successful
+	test	rsi,	rsi
+	jz		error_inval
+    mov		rax,	1
+    syscall
+    cmp		rax,	0
+    jl		error
+    ret
 
 error:
-    mov rax, -1             ; Set return value to -1 on error
-    ret                     ; Return
+	neg		rax
+	mov		rdi,	rax
+	call	__errno_location
+	mov		[rax],	rdi
+    mov		rax,	-1
+    ret
+
+error_inval:
+	mov		rdi,	22
+    call	__errno_location
+    mov		[rax],	edi
+    mov		rax,	-1
+    ret

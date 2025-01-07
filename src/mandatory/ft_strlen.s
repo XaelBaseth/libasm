@@ -2,11 +2,14 @@ global ft_strlen
 section .text
 
 ft_strlen:
-    xor     rax, rax
-    length:
-        cmp     byte[rax+rdi], 0    ; Look for a null-terminator in the RDI string
-        je 		exit                ; If equal, perform 'exit'
-        inc	 	rax                 ; If not equal, increment rax and
-        jmp 	length              ; perform 'length'
-exit:
+	xor		rcx, rcx
+
+loop:
+	cmp		byte [rdi + rcx], 0
+	jz		return
+	inc		rcx
+	jmp		loop
+
+return:
+	mov 		rax, rcx
 	ret

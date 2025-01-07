@@ -1,20 +1,22 @@
 global ft_read
 section .text
+extern __errno_location
 
 ; ft_read(rdi, rsi, rdx)
 
 ft_read:
-    xor     rax, rax        ; reset register
-    mov     rax, 0
-    syscall                 ; invoke the system call read
-    jc      error           ; error handling
-    jmp     exit
+	test	rsi,	rsi
+	jz		error
+    mov     rax,	0
+    syscall
+    cmp		rax, 	0
+	jl		error
+	ret
 
 error:
-    xor     rax, rax
-    mov     rax, -1         ; if failure, returns -1
-    ret
-
-exit:
-    ret                     ; returns the bytes read number
-
+    neg		rax
+	mov		rdi,	rax
+	call	__errno_location
+	mov		[rax],	rdi
+	mov		rax, 	-1
+	ret

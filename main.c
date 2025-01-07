@@ -16,7 +16,7 @@ void test_strlen() {
     const char *test1 = "Hello, world!";
     const char *test2 = "";
 
-    assert(ft_strlen(test1) == strlen(test1));  // Compare with original strlen
+    assert(ft_strlen(test1) == strlen(test1)); 
     assert(ft_strlen(test2) == strlen(test2));
     printf("ft_strlen: OK\n");
 }
@@ -28,7 +28,7 @@ void test_strcpy() {
     ft_strcpy(dest1, src);
     strcpy(dest2, src);
 
-    assert(strcmp(dest1, dest2) == 0);  // Check if the copied strings match
+    assert(strcmp(dest1, dest2) == 0); 
     printf("ft_strcpy: OK\n");
 }
 
@@ -37,7 +37,7 @@ void test_strcmp() {
     const char *s2 = "World";
     const char *s3 = "Hello";
 
-    assert(ft_strcmp(s1, s2) == strcmp(s1, s2));  // Compare with original strcmp
+    assert(ft_strcmp(s1, s2) == strcmp(s1, s2));  
     assert(ft_strcmp(s1, s3) == strcmp(s1, s3));
     printf("ft_strcmp: OK\n");
 }
@@ -47,7 +47,7 @@ void test_strdup() {
     char *ft_dup = ft_strdup(test);
     char *c_dup = strdup(test);
 
-    assert(strcmp(ft_dup, c_dup) == 0);  // Check if duplicated strings match
+    assert(strcmp(ft_dup, c_dup) == 0);  
     free(ft_dup);
     free(c_dup);
     printf("ft_strdup: OK\n");
@@ -58,7 +58,7 @@ void test_write() {
     ssize_t ft_ret = ft_write(STDOUT_FILENO, msg, strlen(msg));
     ssize_t c_ret = write(STDOUT_FILENO, msg, strlen(msg));
 
-    assert(ft_ret == c_ret);  // Check return values
+    assert(ft_ret == c_ret);  
     printf("ft_write: OK\n");
 }
 
@@ -71,13 +71,13 @@ void test_read() {
     ft_ret = ft_read(fd, ft_buf, 19);
     ft_buf[ft_ret] = '\0';
 
-    lseek(fd, 0, SEEK_SET);  // Reset stdin position for testing
+    lseek(fd, 0, SEEK_SET);  
     printf("\nNow enter the same input again: ");
     c_ret = read(fd, c_buf, 19);
     c_buf[c_ret] = '\0';
 
-    assert(ft_ret == c_ret);  // Compare number of bytes read
-    assert(strcmp(ft_buf, c_buf) == 0);  // Compare read contents
+    assert(ft_ret == c_ret);  
+    assert(strcmp(ft_buf, c_buf) == 0);  
     printf("ft_read: OK\n");
 }
 
