@@ -26,42 +26,31 @@ WHITE        = \033[0;97m
 # Files
 MAND_DIR     = mandatory/
 MAND_FILES   = ft_strlen ft_strcpy ft_read ft_strcmp ft_write  ft_strdup
-BONU_DIR     = bonus/
-BONU_FILES   = ft_list_push_front ft_list_size ft_list_sort ft_list_remove_if
 
 SRC_MAND_FILE= $(addprefix $(MAND_DIR), $(MAND_FILES))
-SRC_BONU_FILE= $(addprefix $(BONU_DIR), $(BONU_FILES))
 
 OBJF 		= 	.cache_exists
 
 # Source files
 SRC          = $(addprefix $(SRC_DIR), $(SRC_MAND_FILE))
-SRC_BONUS    = $(addprefix $(SRC_DIR), $(SRC_BONU_FILE))
 OBJ          = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_MAND_FILE)))
-OBJ_BONUS    = $(addprefix $(OBJ_DIR), $(addsuffix .o, $(BONU_FILE)))
 
 # Generation of .o
-
 $(NAME): $(OBJ)
 		@ar rcs $@ $^
 		@$(ECHO) "$(YELLOW)[$(NAME_CAPS)]:\t$(ORANGE)[==========]\t$(GREEN) => Success!$(DEF_COLOR)\n"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.s $(OBJF)
-		@$(CC) $(CFLAGS) $< -o $@
+		@$(CC) $(CFLAGS) -o $@ $<
 		@$(ECHO) "\033[1A\033[K$< created"
 
 $(OBJF):		
 				@mkdir -p $(OBJ_DIR)
 				@mkdir -p $(OBJ_DIR)$(MAND_DIR)
-				@mkdir -p $(OBJ_DIR)$(BONU_DIR)
+				@touch $(OBJF)
 
 # Rules
-
 all: $(NAME)
-
-bonus: $(OBJ) $(OBJ_BONUS)
-		@ar rcs $(NAME) $^
-		@$(ECHO) "$(YELLOW)[$(NAME_CAPS)]:\t$(ORANGE)[==========]\t$(GREEN) => Bonus files compiled!$(DEF_COLOR)\n"
 
 help: ##  Print help on Makefile.
 		@grep '^[^.#]\+:\s\+.*#' Makefile | \
@@ -72,20 +61,24 @@ clean: ##  Clean generated files and cache.
 		@$(RM) $(OBJ_DIR)
 		@$(RM) $(OBJF)
 		@$(RM) main
+		@$(RM) test_output.txt
 		@$(ECHO) "$(BLUE)[$(NAME_CAPS)]:\tobj. files$(DEF_COLOR)\t$(GREEN) => Cleaned!$(DEF_COLOR)\n"
 
 fclean: ##  Clean all generated file, including binaries.		
 		@make clean
-		@$(RM) $(NAME) $(SHARED_NAME)
+		@$(RM) $(NAME)
 		@$(ECHO) "$(CYAN)[$(NAME_CAPS)]:\texe. files$(DEF_COLOR)\t$(GREEN) => Cleaned!$(DEF_COLOR)\n"
 
 re: ##  Clean and rebuild binary file.
 		@make fclean all
 		@$(ECHO) "\n$(GREEN)###\tCleaned and rebuilt everything for [$(NAME_CAPS)]!\t###$(DEF_COLOR)\n"
 
+# no-pie is needed due a relocation issue with __errno_location. Link a
+# position-independent executable (PIE), but some of the object files in
+# libasm.a are compiled in a way that doesn't support this.
 test: ##Use the main.c to test the program.
 		@make re
-		gcc -o main main.c libasm.a -no-pie
-		./main
+		gcc -o main main.c -L. -lasm -no-pie 
+		valgrind ./main
 
-.PHONY: all bonus test clean fclean re help test
+.PHONY: all test clean fclean re help test

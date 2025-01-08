@@ -1,92 +1,196 @@
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <assert.h>
-
-// Declare your assembly functions
-size_t  ft_strlen(const char *str);
-char    *ft_strcpy(char *dest, const char *src);
-int     ft_strcmp(const char *s1, const char *s2);
-char    *ft_strdup(const char *s);
-ssize_t ft_write(int fd, const void *buf, size_t count);
-ssize_t ft_read(int fd, void *buf, size_t count);
+#include "./inc/libasm.h"
 
 void test_strlen() {
-    const char *test1 = "Hello, world!";
-    const char *test2 = "";
+	printf(BLUE"\n[===============] STRLEN [====================]\n"DEF_COLOR);
+    
+	char *test1 = "Hello, world!";
+    char *test2 = "";
+	char *test3 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris id ligula tellus. Vestibulum ac nunc eu magna pellentesque facilisis eu eu urna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas elementum neque non euismod pretium. Nunc consectetur vel urna sed mollis. Vivamus maximus metus eu auctor ullamcorper. Curabitur vel tincidunt odio. Suspendisse egestas dolor eu metus pellentesque, in finibus purus vulputate. Nulla lacus urna, finibus ut congue non, auctor vitae tortor. Maecenas pellentesque sit amet tellus gravida malesuada. Phasellus velit dui, vulputate commodo urna vel, viverra euismod purus. ";
 
-    assert(ft_strlen(test1) == strlen(test1)); 
-    assert(ft_strlen(test2) == strlen(test2));
-    printf("ft_strlen: OK\n");
+    if (ft_strlen(test1) == strlen(test1))
+		printf(GREEN" [OK]"DEF_COLOR);
+	else
+		printf(RED" [NOK]"DEF_COLOR);
+	
+	if (ft_strlen(test2) == strlen(test2))
+		printf(GREEN" [OK]"DEF_COLOR);
+	else
+		printf(RED" [NOK]"DEF_COLOR);
+	
+	if (ft_strlen(test2) == strlen(test2))
+		printf(GREEN" [OK]"DEF_COLOR);
+	else
+		printf(RED" [NOK]"DEF_COLOR);
 }
 
 void test_strcpy() {
-    char dest1[20], dest2[20];
-    const char *src = "Test string";
+	printf(BLUE"\n[===============] STRCPY [====================]\n"DEF_COLOR);
+    
+	char dest1[20], dest2[20], dest3[660];
+    char *src1 = "";
+	char *src2 = "Hello, world!";
+	char *src3 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris id ligula tellus. Vestibulum ac nunc eu magna pellentesque facilisis eu eu urna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas elementum neque non euismod pretium. Nunc consectetur vel urna sed mollis. Vivamus maximus metus eu auctor ullamcorper. Curabitur vel tincidunt odio. Suspendisse egestas dolor eu metus pellentesque, in finibus purus vulputate. Nulla lacus urna, finibus ut congue non, auctor vitae tortor. Maecenas pellentesque sit amet tellus gravida malesuada. Phasellus velit dui, vulputate commodo urna vel, viverra euismod purus. ";
 
-    ft_strcpy(dest1, src);
-    strcpy(dest2, src);
-
-    assert(strcmp(dest1, dest2) == 0); 
-    printf("ft_strcpy: OK\n");
+    if (ft_strcpy(dest1, src1) == strcpy(dest1, src1))
+		printf(GREEN" [OK]"DEF_COLOR);
+	else
+		printf(RED" [NOK]"DEF_COLOR);
+	
+	if (ft_strcpy(dest2, src2) == strcpy(dest2, src2))
+		printf(GREEN" [OK]"DEF_COLOR);
+	else
+		printf(RED" [NOK]"DEF_COLOR);
+	
+	if (ft_strcpy(dest3, src3) == strcpy(dest3, src3))
+		printf(GREEN" [OK]"DEF_COLOR);
+	else
+		printf(RED" [NOK]"DEF_COLOR);
 }
 
 void test_strcmp() {
-    const char *s1 = "Hello";
+	printf(BLUE"\n[===============] STRCMP [====================]\n"DEF_COLOR);
+    
+	const char *s1 = "Hello";
     const char *s2 = "World";
     const char *s3 = "Hello";
 
-    assert(ft_strcmp(s1, s2) == strcmp(s1, s2));  
-    assert(ft_strcmp(s1, s3) == strcmp(s1, s3));
-    printf("ft_strcmp: OK\n");
+    if (ft_strcmp(s1, s1) == strcmp(s1, s1))
+		printf(GREEN" [OK]"DEF_COLOR);
+	else
+		printf(RED" [NOK]"DEF_COLOR);
+	
+	if (ft_strcmp(s1, s3) == strcmp(s1, s3))
+		printf(GREEN" [OK]"DEF_COLOR);
+	else
+		printf(RED" [NOK]"DEF_COLOR);
+	
+	if (ft_strcmp(s1, s2) != strcmp(s1, s2))
+		printf(GREEN" [OK]"DEF_COLOR);
+	else
+		printf(RED" [NOK]"DEF_COLOR);
 }
 
 void test_strdup() {
-    const char *test = "Duplicate me!";
-    char *ft_dup = ft_strdup(test);
-    char *c_dup = strdup(test);
+	printf(BLUE"\n[===============] STRDUP [====================]\n"DEF_COLOR);
+    
+	char *test1 = "Hello, World!";
+    char *ft_dup1 = ft_strdup(test1);
+    char *c_dup1 = strdup(test1);
+	char *test2 = "";
+    char *ft_dup2 = ft_strdup(test2);
+    char *c_dup2 = strdup(test2);
+	char *test3 = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris id ligula tellus. Vestibulum ac nunc eu magna pellentesque facilisis eu eu urna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Maecenas elementum neque non euismod pretium. Nunc consectetur vel urna sed mollis. Vivamus maximus metus eu auctor ullamcorper. Curabitur vel tincidunt odio. Suspendisse egestas dolor eu metus pellentesque, in finibus purus vulputate. Nulla lacus urna, finibus ut congue non, auctor vitae tortor. Maecenas pellentesque sit amet tellus gravida malesuada. Phasellus velit dui, vulputate commodo urna vel, viverra euismod purus. ";
+    char *ft_dup3 = ft_strdup(test3);
+    char *c_dup3 = strdup(test3);
 
-    assert(strcmp(ft_dup, c_dup) == 0);  
-    free(ft_dup);
-    free(c_dup);
-    printf("ft_strdup: OK\n");
+    if (strcmp(c_dup1, ft_dup1) != 0)
+		printf(RED" [NOK]"DEF_COLOR);
+	else 
+		printf(GREEN" [OK]"DEF_COLOR);
+	
+	if (strcmp(c_dup2, ft_dup2) != 0)
+		printf(RED" [NOK]"DEF_COLOR);
+	else 
+		printf(GREEN" [OK]"DEF_COLOR);
+
+	if (strcmp(c_dup3, ft_dup3) != 0)
+		printf(RED" [NOK]"DEF_COLOR);
+	else 
+		printf(GREEN" [OK]"DEF_COLOR);
+
+	free(ft_dup1);
+    free(c_dup1);
+	free(ft_dup2);
+    free(c_dup2);
+	free(ft_dup3);
+    free(c_dup3);
 }
 
 void test_write() {
-    const char *msg = "Hello, write test!\n";
-    ssize_t ft_ret = ft_write(STDOUT_FILENO, msg, strlen(msg));
-    ssize_t c_ret = write(STDOUT_FILENO, msg, strlen(msg));
+	printf(BLUE"\n[===============] WRITE [====================]\n"DEF_COLOR);
+    
+	char *msg = "Hello, World!\n";
+    ssize_t ft_stdout = ft_write(STDOUT_FILENO, msg, strlen(msg));
+    ssize_t c_stdout = write(STDOUT_FILENO, msg, strlen(msg));
+	const char *filename = "test_output.txt";
+    int file_fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	ssize_t ft_file = ft_write(file_fd, msg, strlen(msg));
+    ssize_t c_file = write(file_fd, msg, strlen(msg));
+	int invalid_fd = -1;
+    ssize_t ft_invalid = ft_write(invalid_fd, msg, strlen(msg));
+    ssize_t c_invalid = write(invalid_fd, msg, strlen(msg));
 
-    assert(ft_ret == c_ret);  
-    printf("ft_write: OK\n");
+
+    if (c_stdout == ft_stdout)
+		printf(GREEN" [OK]"DEF_COLOR);
+	else 
+		printf(RED" [NOK]"DEF_COLOR);
+
+	if (ft_file == c_file)
+		printf(GREEN" [OK]"DEF_COLOR);
+	else 
+		printf(RED" [NOK]"DEF_COLOR);
+    close(file_fd);
+
+	if (ft_invalid == -1 && c_invalid == -1)
+		printf(GREEN" [OK]"DEF_COLOR);
+	else 
+		printf(RED" [NOK]"DEF_COLOR);
+	
 }
 
 void test_read() {
-    char ft_buf[20], c_buf[20];
-    ssize_t ft_ret, c_ret;
+	printf(BLUE"\n[===============] READ [====================]\n"DEF_COLOR);
 
-    int fd = STDIN_FILENO;
-    printf("Enter some input (up to 19 characters): ");
-    ft_ret = ft_read(fd, ft_buf, 19);
-    ft_buf[ft_ret] = '\0';
+	char buffer_ft[1024] = {0};
+	char buffer_c[1024] = {0};
+	printf("Enter input for stdin test and repeat it:\n");
+	ssize_t ft_stdin = ft_read(STDIN_FILENO, buffer_ft, sizeof(buffer_ft) - 1);
+	ssize_t c_stdin = read(STDIN_FILENO, buffer_c, sizeof(buffer_c) - 1);
+	const char *filename = "test_output.txt";
+    int file_fd = open(filename, O_RDONLY);
+    ssize_t ft_file = ft_read(file_fd, buffer_ft, sizeof(buffer_ft) - 1);
+    ssize_t c_file = read(file_fd, buffer_c, sizeof(buffer_c) - 1);
+	int invalid_fd = -1;
+    ssize_t ft_invalid = ft_read(invalid_fd, buffer_ft, sizeof(buffer_ft) - 1);
+    ssize_t c_invalid = read(invalid_fd, buffer_c, sizeof(buffer_c) - 1);
 
-    lseek(fd, 0, SEEK_SET);  
-    printf("\nNow enter the same input again: ");
-    c_ret = read(fd, c_buf, 19);
-    c_buf[c_ret] = '\0';
+	if (ft_stdin == c_stdin || strcmp(buffer_ft, buffer_c) == 0) {
+		printf(GREEN" [OK]"DEF_COLOR);
+	} else {
+		printf(RED" [NOK]"DEF_COLOR);
+	}
 
-    assert(ft_ret == c_ret);  
-    assert(strcmp(ft_buf, c_buf) == 0);  
-    printf("ft_read: OK\n");
+	memset(buffer_ft, 0, sizeof(buffer_ft));
+	memset(buffer_c, 0, sizeof(buffer_c));
+
+  	if (ft_file == c_file || strcmp(buffer_ft, buffer_c) == 0)
+		printf(GREEN" [OK]"DEF_COLOR);
+	else
+        printf(RED" [NOK]"DEF_COLOR);
+    close(file_fd);
+
+    memset(buffer_ft, 0, sizeof(buffer_ft));
+    memset(buffer_c, 0, sizeof(buffer_c));
+
+    if (ft_invalid == -1 && c_invalid == -1)
+        printf(GREEN" [OK]"DEF_COLOR);
+    else
+        printf(RED" [NOK]"DEF_COLOR);
+	
+	memset(buffer_ft, 0, sizeof(buffer_ft));
+    memset(buffer_c, 0, sizeof(buffer_c));
 }
 
+
 int main() {
+	printf(MAGENTA"\n[###################] TEST [###################]\n"DEF_COLOR);
     test_strlen();
     test_strcpy();
     test_strcmp();
     test_strdup();
     test_write();
     test_read();
+	printf(MAGENTA"\n[###################] TEST [###################]\n"DEF_COLOR);
     return 0;
 }

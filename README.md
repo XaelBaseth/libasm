@@ -11,12 +11,6 @@ With this subject you have to construct your own library in assembly containing 
 	4. ft_write
 	5. ft_read
 	6. ft_strdup
-2. __Bonus__
-	1. ft_atoi_base
-	2. ft_list_push_front
-	3. ft_list_size
-	4. ft_list_sort
-	5. ft_list_remove_if
 
 ## Assembly
 
